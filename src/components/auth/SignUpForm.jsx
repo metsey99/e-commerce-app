@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, DatePicker, Form, Input } from "antd";
+import { Alert, Button, DatePicker, Form, Input } from "antd";
 import styled from "styled-components";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
@@ -29,13 +29,23 @@ export const SignUpForm = () => {
   const [cnfPassword, setCnfPassword] = React.useState("");
   const [helperMsg, setHelperMsg] = React.useState(["", ""]);
   const [isEmailValid, setIsEmailValid] = React.useState(true);
+  const [pageStatus, setPageStatus] = React.useState("idle");
   const navigate = useNavigate();
 
   const handleSignUp = (values) => {
     if (isEmailValid && helperMsg[0] === "" && helperMsg[1] === "") {
+      setPageStatus("loading");
       values.dob = dayjs(values.dob).format().toString();
       console.log(values);
-      navigate("/signup-success");
+      const res = test();
+      res
+        .then((data) => {
+          setPageStatus("idle");
+          navigate("/signup-success");
+        })
+        .catch((err) => {
+          setPageStatus("rejected");
+        });
     }
   };
 
@@ -72,13 +82,13 @@ export const SignUpForm = () => {
 
   //TODO: Delete Later
   function delay(time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
+    return new Promise((resolve, reject) => setTimeout(resolve, time));
   }
 
   //TODO: Replace with API Call
   async function test() {
     await delay(1000);
-    return true;
+    return false;
   }
 
   const handleEmailChange = async (e) => {
@@ -97,6 +107,15 @@ export const SignUpForm = () => {
     <StyledWrapper>
       <StyledSignUpForm layout="vertical" onFinish={handleSignUp}>
         <StyledPageName>Sign Up</StyledPageName>
+        {pageStatus === "rejected" && (
+          <Alert
+            message="An exception has been occured. Please try again later"
+            type="error"
+            showIcon
+            banner
+            style={{ marginBottom: "10px" }}
+          />
+        )}
         <Form.Item
           label="Name"
           name="name"
@@ -211,7 +230,13 @@ export const SignUpForm = () => {
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" size="large" block htmlType="submit">
+          <Button
+            type="primary"
+            size="large"
+            block
+            htmlType="submit"
+            loading={pageStatus === "loading"}
+          >
             Sign Up
           </Button>
         </Form.Item>

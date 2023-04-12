@@ -1,6 +1,6 @@
 import React from "react";
 import { PageWrapper } from "./PageWrapper";
-import { Button, Form, Input, Typography } from "antd";
+import { Alert, Button, Form, Input, Typography } from "antd";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -31,10 +31,30 @@ const StyledPageName = styled.p`
 
 export const ForgotPasswordPage = () => {
   const navigate = useNavigate();
+  const [pageStatus, setPageStatus] = React.useState("idle");
+
+  //TODO: Delete Later
+  function delay(time) {
+    return new Promise((resolve, reject) => setTimeout(reject, time));
+  }
+
+  //TODO: Replace with API Call
+  async function test() {
+    await delay(1500);
+    return true;
+  }
 
   const handleResetPassword = (values) => {
-    console.log(values);
-    navigate("/");
+    setPageStatus("loading");
+    const res = test();
+    res
+      .then((data) => {
+        setPageStatus("idle");
+        navigate("/");
+      })
+      .catch((err) => {
+        setPageStatus("rejected");
+      });
   };
 
   return (
@@ -42,6 +62,15 @@ export const ForgotPasswordPage = () => {
       <StyledWrapper>
         <StyledForm layout="vertical" onFinish={handleResetPassword}>
           <StyledPageName>Forgot Password</StyledPageName>
+          {pageStatus === "rejected" && (
+            <Alert
+              message="An exception has been occured. Please try again later"
+              type="error"
+              showIcon
+              banner
+              style={{ marginBottom: "10px" }}
+            />
+          )}
           <Form.Item
             name="email"
             label="Email"
@@ -60,7 +89,13 @@ export const ForgotPasswordPage = () => {
             further instructions to reset password.
           </StyledInfoMessage>
           <Form.Item>
-            <Button block type="primary" size="large" htmlType="submit">
+            <Button
+              block
+              type="primary"
+              size="large"
+              htmlType="submit"
+              loading={pageStatus === "loading"}
+            >
               Reset Password
             </Button>
           </Form.Item>

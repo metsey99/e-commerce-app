@@ -25,9 +25,11 @@ export const SuccessPage = (props) => {
       title={successMessages[props.type].title}
       subTitle={successMessages[props.type].subTitle}
       extra={[
-        <Button type="primary" key="console">
-          <Link to="/">Go to Home Page</Link>
-        </Button>,
+        <Link to="/">
+          <Button type="primary" key="console">
+            Go to Home Page
+          </Button>
+        </Link>,
       ]}
     />
   );

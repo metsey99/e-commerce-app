@@ -50,7 +50,7 @@ export const Product = (props) => {
         style={{ width: 225 }}
         cover={
           <img
-            alt="example"
+            alt="Product"
             src={props.img}
             style={{ height: 200, border: "1px solid #f0f0f0" }}
           />

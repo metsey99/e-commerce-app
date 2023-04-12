@@ -9,7 +9,12 @@ import {
   removeItemFailed,
   removeItemSucceeded,
 } from "../reducer/cartSlice";
-import { fetchItemsRequest } from "../requests/cart";
+import {
+  addItemRequest,
+  editItemRequest,
+  fetchItemsRequest,
+  removeItemRequest,
+} from "../requests/cart";
 
 export function* handleFetchItems() {
   try {
@@ -21,9 +26,9 @@ export function* handleFetchItems() {
   }
 }
 
-export function* handleAddItem() {
+export function* handleAddItem(itemDetails) {
   try {
-    const response = yield call();
+    const response = yield call(addItemRequest(itemDetails));
     const data = response.data;
     yield put(addItemSucceeded(data));
   } catch (error) {
@@ -31,9 +36,9 @@ export function* handleAddItem() {
   }
 }
 
-export function* handleEditItem() {
+export function* handleEditItem(itemDetails) {
   try {
-    const response = yield call();
+    const response = yield call(editItemRequest(itemDetails));
     const data = response.data;
     yield put(editItemSucceeded(data));
   } catch (error) {
@@ -41,9 +46,9 @@ export function* handleEditItem() {
   }
 }
 
-export function* handleRemoveItem() {
+export function* handleRemoveItem(itemDetails) {
   try {
-    const response = yield call();
+    const response = yield call(removeItemRequest(itemDetails));
     const data = response.data;
     yield put(removeItemSucceeded(data));
   } catch (error) {

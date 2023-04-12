@@ -53,6 +53,10 @@ export const LandingPage = () => {
 
   React.useEffect(() => {
     const res = getAllProducts();
+    res.then((data) => {
+      console.log(data.data);
+      setAllProducts(data.data);
+    });
   }, []);
 
   return (

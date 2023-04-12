@@ -4,7 +4,7 @@ import { addAuthHeader } from "../../service/utils";
 export const fetchItemsRequest = () => {
   return axios.request({
     method: "get",
-    url: "http://localhost:4000",
+    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/api/orders/cart`,
     headers: addAuthHeader(),
   });
 };
@@ -12,7 +12,7 @@ export const fetchItemsRequest = () => {
 export const addItemRequest = (itemDetails) => {
   return axios.request({
     method: "post",
-    url: "http://localhost:4000/api/orders/addToCart",
+    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/api/orders/addToCart`,
     headers: addAuthHeader(),
     data: {
       productId: itemDetails.id,
@@ -25,7 +25,7 @@ export const addItemRequest = (itemDetails) => {
 export const editItemRequest = (itemDetails) => {
   return axios.request({
     method: "put",
-    url: `http://localhost:4000/api/orders/${itemDetails.id}`,
+    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/api/orders/${itemDetails.id}`,
     headers: addAuthHeader(),
     data: {
       productId: itemDetails.id,
@@ -38,7 +38,7 @@ export const editItemRequest = (itemDetails) => {
 export const removeItemRequest = (itemDetails) => {
   return axios.request({
     method: "post",
-    url: "http://localhost:4000/api/orders/removeFromCart",
+    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/api/orders/removeFromCart`,
     headers: addAuthHeader(),
     data: {
       productId: itemDetails.id,

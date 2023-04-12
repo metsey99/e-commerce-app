@@ -4,7 +4,7 @@ import { addAuthHeader, handleResponse } from "../utils";
 export const register = (user) => {
   const request = axios.request({
     method: "post",
-    url: "/api/register",
+    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/api/register`,
     data: {
       firstName: user.name,
       lastName: user.surname,
@@ -18,7 +18,7 @@ export const register = (user) => {
 export const forgotPassword = (email) => {
   const request = axios.request({
     method: "post",
-    url: "",
+    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}`,
     data: {
       email,
     },
@@ -29,7 +29,7 @@ export const forgotPassword = (email) => {
 export const changePassword = (credentials) => {
   const request = axios.request({
     method: "post",
-    url: "",
+    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}`,
     headers: addAuthHeader(),
     data: {
       oldPassword: credentials.oldPassword,
@@ -38,4 +38,14 @@ export const changePassword = (credentials) => {
   });
 
   return handleResponse(request);
+};
+
+export const checkEmailAvailability = (email) => {
+  const request = axios.request({
+    method: "get",
+    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}`,
+    data: {
+      email,
+    },
+  });
 };
