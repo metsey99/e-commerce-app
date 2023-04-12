@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Button, Form, Input } from "antd";
 
 const StyledForm = styled(Form)`
-  width: 30%;
+  width: 50%;
   border: 1px solid black;
   padding: 3%;
   border-radius: 12px;

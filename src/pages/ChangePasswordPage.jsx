@@ -6,7 +6,7 @@ import { Alert, Button, Form, Input } from "antd";
 import { useSelector } from "react-redux";
 
 const StyledForm = styled(Form)`
-  width: 30%;
+  width: 50%;
   padding: 3%;
   border-radius: 12px;
   background-color: #fff;

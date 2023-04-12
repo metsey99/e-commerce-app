@@ -11,7 +11,12 @@ export const addAuthHeader = () => {
 };
 
 const authToken = () => {
-  return store.getState().auth.auth;
+  let user = store.getState().auth.auth;
+  console.log(user);
+  if (user) {
+    return JSON.parse(user).token;
+  }
+  return "";
 };
 
 export const handleResponse = async (request) => {

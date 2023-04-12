@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 
 const StyledSignUpForm = styled(Form)`
-  width: 40%;
+  width: 60%;
   border: 1px solid black;
   padding: 3%;
   border-radius: 12px;
