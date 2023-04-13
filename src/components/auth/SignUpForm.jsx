@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { checkEmailAvailability, register } from "../../service/auth";
 
 const StyledSignUpForm = styled(Form)`
+  @media screen and (max-width: 768px) {
+    width: 90%;
+    padding: 10%;
+  }
   width: 60%;
   border: 1px solid black;
   padding: 3%;
