@@ -95,10 +95,14 @@ export const cartSlice = createSlice({
     removeItemFailed: (state, action) => {
       state.removeItemStatus = "failed";
     },
+    clearCart: (state) => {
+      state.items = [];
+    },
     removeAllItemsRequested: (state) => {
       state.removeAllItemsStatus = "loading";
     },
     removeAllItemsSucceeded: (state, action) => {
+      state.items = [];
       state.removeAllItemsStatus = "idle";
     },
     removeAllItemsFailed: (state, action) => {
@@ -120,7 +124,10 @@ export const {
   removeItemRequested,
   removeItemSucceeded,
   removeItemFailed,
-  removeAllItems,
+  removeAllItemsRequested,
+  removeAllItemsSucceeded,
+  removeAllItemsFailed,
+  clearCart,
 } = cartSlice.actions;
 
 export const getItems = (state) => state.items;

@@ -1,6 +1,4 @@
 import { all, fork, takeEvery, takeLatest } from "redux-saga/effects";
-import { loginRequested } from "./reducer/authSlice";
-import { handleLogin } from "./handler/authHandler";
 import {
   handleAddItem,
   handleEditItem,
@@ -13,10 +11,6 @@ import {
   fetchItemsRequested,
   removeItemRequested,
 } from "./reducer/cartSlice";
-
-export function* watcherAuthLogin() {
-  yield takeLatest(loginRequested, handleLogin);
-}
 
 export function* watcherFetchItems() {
   yield takeLatest(fetchItemsRequested, handleFetchItems);
@@ -36,7 +30,6 @@ export function* watcherRemoveItem() {
 
 export default function* root() {
   yield all([
-    fork(watcherAuthLogin),
     fork(watcherFetchItems),
     fork(watcherAddItem),
     fork(watcherEditItem),

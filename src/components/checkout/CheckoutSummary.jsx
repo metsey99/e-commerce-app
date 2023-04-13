@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { removeAllItems } from "../../redux/reducer/cartSlice";
+import {
+  clearCart,
+  removeAllItemsRequested,
+} from "../../redux/reducer/cartSlice";
 
 const { confirm } = Modal;
 
@@ -45,9 +48,27 @@ export const CheckoutSummary = () => {
     useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
+  //TODO: Delete Later
+  function delay(time) {
+    return new Promise((resolve, reject) => setTimeout(reject, time));
+  }
+
+  //TODO: Replace with API Call
+  async function test() {
+    await delay(1500);
+    return true;
+  }
+
   const handlePurchase = () => {
-    dispatch(removeAllItems());
-    navigate("/order-success");
+    const res = test();
+    res
+      .then((data) => {
+        dispatch(clearCart());
+        navigate("/order-status/success");
+      })
+      .catch((err) => {
+        navigate("/order-status/failed");
+      });
   };
 
   const calculateTotal = () => {
@@ -64,7 +85,7 @@ export const CheckoutSummary = () => {
       okType: "danger",
       cancelText: "No",
       onOk() {
-        dispatch(removeAllItems());
+        dispatch(removeAllItemsRequested());
       },
       onCancel() {},
     });

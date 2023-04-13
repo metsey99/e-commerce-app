@@ -27,6 +27,9 @@ const StyledLogo = styled(Link)`
 `;
 
 const RightContainer = styled.div`
+  & > a {
+    margin: auto 5px;
+  }
   & > button {
     margin: auto 5px;
   }

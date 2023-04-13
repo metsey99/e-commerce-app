@@ -2,8 +2,13 @@ import { Button, Form, Input, Alert } from "antd";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginRequested } from "../../redux/reducer/authSlice";
+import {
+  loginFailed,
+  loginRequested,
+  loginSucceeded,
+} from "../../redux/reducer/authSlice";
 import styled from "styled-components";
+import { loginRequest } from "../../service/auth";
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -62,16 +67,19 @@ export const LoginForm = () => {
     setLoginStatus("loading");
     const credentials = { email: values.email, password: values.password };
     //TODO burada api call yapilacak
+    // const res = loginRequest(credentials);
     const res = test();
 
     res
       .then((data) => {
         setIsVerificationStep(true);
         setLoginStatus("idle");
+        dispatch(loginRequested());
         form.resetFields();
       })
       .catch((err) => {
         setLoginStatus("failed");
+        dispatch(loginFailed(err));
       });
   };
 
@@ -85,10 +93,12 @@ export const LoginForm = () => {
         //TODO burada jwt gelmeli
         console.log(data);
         setLoginStatus("idle");
+        dispatch(loginSucceeded({}));
         navigate("/");
       })
-      .catch(() => {
+      .catch((err) => {
         setLoginStatus("failed");
+        dispatch(loginFailed(err));
         setIsVerificationStep(false);
       });
   };
