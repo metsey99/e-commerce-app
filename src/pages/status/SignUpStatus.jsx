@@ -1,7 +1,7 @@
 import { Button, Result } from "antd";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { PageWrapper } from "./PageWrapper";
+import { PageWrapper } from "../PageWrapper";
 import { LoadingOutlined } from "@ant-design/icons";
 
 //TODO: Delete Later
@@ -20,6 +20,7 @@ export const SignUpStatus = (props) => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
+    //TODO aktivasyon registration
     const res = test();
 
     res

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const mockData1 = {
   name: "Apple",
   description: "Highly accessible, many people's favorite fruit, red color",
-  unitPrice: 1.25,
+  price: 1.25,
   quantity: 3,
   id: "123",
 };
@@ -11,7 +11,7 @@ const mockData1 = {
 const mockData2 = {
   name: "Orange",
   description: "Highly accessible, many people's favorite fruit, orange color",
-  unitPrice: 2.3,
+  price: 2.3,
   quantity: 5,
   id: "124",
 };
@@ -19,7 +19,7 @@ const mockData2 = {
 const mockData3 = {
   name: "Banana",
   description: "Highly accessible, many people's favorite fruit, yellow color",
-  unitPrice: 0.85,
+  price: 0.85,
   quantity: 7,
   id: "125",
 };
@@ -51,6 +51,7 @@ export const cartSlice = createSlice({
       state.addItemStatus = "loading";
     },
     addItemSucceeded: (state, action) => {
+      console.log("action", action.payload);
       if (state.items.some((item) => item.id === action.payload.id)) {
         state.items = state.items.map((item) => {
           if (item.id === action.payload.id) {
@@ -66,6 +67,7 @@ export const cartSlice = createSlice({
       state.addItemStatus = "idle";
     },
     addItemFailed: (state, action) => {
+      console.log(action.payload);
       state.addItemStatus = "failed";
     },
     editItemRequested: (state) => {
@@ -95,7 +97,7 @@ export const cartSlice = createSlice({
     removeItemFailed: (state, action) => {
       state.removeItemStatus = "failed";
     },
-    clearCart: (state) => {
+    removeAllItems: (state) => {
       state.items = [];
     },
     removeAllItemsRequested: (state) => {
@@ -127,7 +129,7 @@ export const {
   removeAllItemsRequested,
   removeAllItemsSucceeded,
   removeAllItemsFailed,
-  clearCart,
+  removeAllItems,
 } = cartSlice.actions;
 
 export const getItems = (state) => state.items;

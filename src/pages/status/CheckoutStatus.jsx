@@ -1,7 +1,7 @@
 import { Button, Result } from "antd";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { PageWrapper } from "./PageWrapper";
+import { PageWrapper } from "../PageWrapper";
 
 export const CheckoutStatus = (props) => {
   const { status } = useParams();
@@ -16,9 +16,7 @@ export const CheckoutStatus = (props) => {
           subTitle={"Your order has been received and ready to be processed."}
           extra={[
             <Link to="/">
-              <Button type="primary" key="console">
-                Go to Home Page
-              </Button>
+              <Button type="primary">Go to Home Page</Button>
             </Link>,
           ]}
         />
@@ -31,9 +29,7 @@ export const CheckoutStatus = (props) => {
           subTitle={"An exception has been occured, please try again later."}
           extra={[
             <Link to="/">
-              <Button type="primary" key="console">
-                Go to Home Page
-              </Button>
+              <Button type="primary">Go to Home Page</Button>
             </Link>,
           ]}
         />

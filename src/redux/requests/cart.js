@@ -4,7 +4,7 @@ import { addAuthHeader } from "../../service/utils";
 export const fetchItemsRequest = () => {
   return axios.request({
     method: "get",
-    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/orders/cart`,
+    url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/cart`,
     headers: addAuthHeader(),
   });
 };
@@ -12,8 +12,8 @@ export const fetchItemsRequest = () => {
 export const addItemRequest = (itemDetails) => {
   return axios.request({
     method: "post",
-    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/orders/addToCart`,
-    headers: addAuthHeader(),
+    url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/addToCart`,
+    // headers: addAuthHeader(),
     data: {
       productId: itemDetails.id,
       price: itemDetails.unitPrice,
@@ -25,7 +25,7 @@ export const addItemRequest = (itemDetails) => {
 export const editItemRequest = (itemDetails) => {
   return axios.request({
     method: "put",
-    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/orders/updateCart`,
+    url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/updateCart`,
     headers: addAuthHeader(),
     data: {
       productId: itemDetails.id,
@@ -38,7 +38,7 @@ export const editItemRequest = (itemDetails) => {
 export const removeItemRequest = (itemDetails) => {
   return axios.request({
     method: "post",
-    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/orders/removeFromCart`,
+    url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/removeFromCart`,
     headers: addAuthHeader(),
     data: {
       productId: itemDetails.id,
@@ -51,7 +51,7 @@ export const removeItemRequest = (itemDetails) => {
 export const removeAllItemsRequest = () => {
   return axios.request({
     method: "post",
-    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/orders/clearCart`,
+    url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/clearCart`,
     headers: addAuthHeader(),
   });
 };

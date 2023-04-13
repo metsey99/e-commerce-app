@@ -1,12 +1,12 @@
 import { Button, Result } from "antd";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { PageWrapper } from "./PageWrapper";
+import { PageWrapper } from "../PageWrapper";
 import { LoadingOutlined } from "@ant-design/icons";
 
 //TODO: Delete Later
 function delay(time) {
-  return new Promise((resolve, reject) => setTimeout(reject, time));
+  return new Promise((resolve, reject) => setTimeout(resolve, time));
 }
 
 //TODO: Replace with API Call
@@ -15,11 +15,12 @@ async function test() {
   return true;
 }
 
-export const SignUpStatus = (props) => {
+export const PassChangeStatus = (props) => {
   const [verificationStatus, setVerificationStatus] = React.useState("loading");
   const navigate = useNavigate();
 
   React.useEffect(() => {
+    //TODO aktivasyon password change
     const res = test();
 
     res

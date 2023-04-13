@@ -5,9 +5,10 @@ import { ExclamationCircleFilled } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import {
-  clearCart,
+  removeAllItems,
   removeAllItemsRequested,
 } from "../../redux/reducer/cartSlice";
+import { checkout } from "../../service/products";
 
 const { confirm } = Modal;
 
@@ -60,13 +61,14 @@ export const CheckoutSummary = () => {
   }
 
   const handlePurchase = () => {
-    const res = test();
+    const res = checkout();
     res
       .then((data) => {
-        dispatch(clearCart());
+        dispatch(removeAllItems());
         navigate("/order-status/success");
       })
       .catch((err) => {
+        console.log("CHECKOUT ERR", err);
         navigate("/order-status/failed");
       });
   };

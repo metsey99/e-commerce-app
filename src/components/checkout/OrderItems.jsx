@@ -43,6 +43,7 @@ export const OrderItems = () => {
       ) : items.length ? (
         items.map((item) => {
           return (
+            //TODO: image ekle
             <ItemContainer
               id={item.id}
               name={item.name}

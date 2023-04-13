@@ -35,7 +35,7 @@ export const ForgotPasswordPage = () => {
 
   //TODO: Delete Later
   function delay(time) {
-    return new Promise((resolve, reject) => setTimeout(reject, time));
+    return new Promise((resolve, reject) => setTimeout(resolve, time));
   }
 
   //TODO: Replace with API Call

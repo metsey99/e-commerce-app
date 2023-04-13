@@ -41,34 +41,10 @@ export const LoginForm = () => {
   const [form] = Form.useForm();
   // const { status } = useSelector((state) => state.auth);
 
-  //TODO: Delete Later
-  function delay(time) {
-    return new Promise((resolve, reject) => setTimeout(resolve, time));
-  }
-
-  //TODO: Replace with API Call
-  async function test() {
-    await delay(1500);
-    return true;
-  }
-
-  //TODO: Delete Later
-  function delay2(time) {
-    return new Promise((resolve, reject) => setTimeout(reject, time));
-  }
-
-  //TODO: Replace with API Call
-  async function test2() {
-    await delay2(1500);
-    return true;
-  }
-
   const onLoginFinish = (values) => {
     setLoginStatus("loading");
     const credentials = { email: values.email, password: values.password };
-    //TODO burada api call yapilacak
-    // const res = loginRequest(credentials);
-    const res = test();
+    const res = loginRequest(credentials);
 
     res
       .then((data) => {

@@ -54,7 +54,7 @@ export const ChangePasswordPage = () => {
     res
       .then((data) => {
         setPageStatus("idle");
-        navigate("/password-success");
+        navigate("/password-status");
       })
       .catch((err) => {
         setPageStatus("failed");

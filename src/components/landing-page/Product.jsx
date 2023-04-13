@@ -30,8 +30,6 @@ export const Product = (props) => {
   const handleCardAdd = () => {
     dispatch(
       addItemRequested({
-        name: props.name,
-        description: props.description,
         quantity: 1,
         id: props.id,
         unitPrice: props.unitPrice,

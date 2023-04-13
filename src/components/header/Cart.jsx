@@ -2,8 +2,9 @@ import { Popover, Button, Divider, Row, Col, Empty } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ShoppingCartOutlined } from "@ant-design/icons";
+import { fetchItemsRequested } from "../../redux/reducer/cartSlice";
 
 const StyledItemContainer = styled(Row)`
   display: flex;
@@ -85,6 +86,11 @@ const CartContent = (products) => {
 
 export const Cart = () => {
   const { items } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(fetchItemsRequested());
+  }, []);
 
   return (
     <Popover

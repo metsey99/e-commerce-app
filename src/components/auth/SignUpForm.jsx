@@ -3,6 +3,7 @@ import { Alert, Button, DatePicker, Form, Input } from "antd";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { checkEmailAvailability, register } from "../../service/auth";
+import dayjs from "dayjs";
 
 const StyledSignUpForm = styled(Form)`
   @media screen and (max-width: 768px) {
@@ -34,6 +35,7 @@ export const SignUpForm = () => {
   const [helperMsg, setHelperMsg] = React.useState(["", ""]);
   const [isEmailValid, setIsEmailValid] = React.useState(true);
   const [pageStatus, setPageStatus] = React.useState("idle");
+  const [form] = Form.useForm();
   const navigate = useNavigate();
 
   const handleSignUp = (values) => {
@@ -44,6 +46,8 @@ export const SignUpForm = () => {
         surname: values.surname,
         email: values.email,
         password: values.password,
+        dob: dayjs(values.dob).format().toString(),
+        mobile: values.phoneNumber,
       };
       const res = register(user);
       res
@@ -57,17 +61,34 @@ export const SignUpForm = () => {
     }
   };
 
-  const validatePassword = () => {
-    if (
+  const checkPassword = (password) => {
+    return (
       password.length < 8 ||
       !/[A-Z]/.test(password) ||
       !/\d/.test(password) ||
       !/[!@#$%^&()*]/.test(password)
-    ) {
+    );
+  };
+
+  const detectIfIncludes = (password) => {
+    const { name, surname, email } = form.getFieldsValue([
+      "name",
+      "surname",
+      "email",
+    ]);
+    return (
+      password.includes(name) ||
+      password.includes(surname) ||
+      password.includes(email.split("@")[0])
+    );
+  };
+
+  const validatePassword = () => {
+    if (checkPassword(password) && detectIfIncludes(password)) {
       setHelperMsg([
         <span style={{ color: "#ff4d4f" }}>
           Password should contain at least{" "}
-          <b>8 characters, 1 capital letter, 1 number</b> and one special
+          <b>8 characters, 1 capital letter, 1 number</b>, and one special
           character <b>(!@#$%^&*)</b>
         </span>,
         helperMsg[1],
@@ -105,7 +126,7 @@ export const SignUpForm = () => {
 
   return (
     <StyledWrapper>
-      <StyledSignUpForm layout="vertical" onFinish={handleSignUp}>
+      <StyledSignUpForm layout="vertical" onFinish={handleSignUp} form={form}>
         <StyledPageName>Sign Up</StyledPageName>
         {pageStatus === "failed" && (
           <Alert
@@ -160,7 +181,7 @@ export const SignUpForm = () => {
         </Form.Item>
         <Form.Item
           label="Phone Number"
-          name="phone-number"
+          name="phoneNumber"
           rules={[
             {
               required: true,

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   status: "idle",
-  auth: localStorage.getItem("user"),
+  auth: '{"token":"asd"}', //localStorage.getItem("user"),
   error: "",
 };
 

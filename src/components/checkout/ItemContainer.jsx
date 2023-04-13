@@ -72,7 +72,7 @@ export const ItemContainer = (props) => {
   const dispatch = useDispatch();
 
   const handleQuantChange = (quantity) => {
-    dispatch(editItemRequested({ ...item, quantity: Math.max(0, quantity) }));
+    dispatch(editItemRequested({ ...item, quantity: Math.max(1, quantity) }));
   };
 
   const showDeleteConfirm = () => {
@@ -92,7 +92,7 @@ export const ItemContainer = (props) => {
   return (
     <StyledContainer justify="space-between">
       <StyledItemInfo md={14} span={12} xs={24} lg={10}>
-        <img src={Apple} alt={props.name} />
+        <img src={props.productImg} alt={props.name} />
         <div>
           <StyledProductName>{props.name}</StyledProductName>
           <Typography>{props.description}</Typography>

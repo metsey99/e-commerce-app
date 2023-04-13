@@ -18,9 +18,9 @@ import {
 
 export function* handleFetchItems() {
   try {
-    const response = yield call(fetchItemsRequest());
-    const data = response.data;
-    yield put(fetchItemsSucceeded(data));
+    const response = yield call(fetchItemsRequest);
+    const { cartItems } = response.data;
+    yield put(fetchItemsSucceeded(cartItems));
   } catch (error) {
     yield put(fetchItemsFailed(error));
   }
@@ -28,7 +28,8 @@ export function* handleFetchItems() {
 
 export function* handleAddItem(itemDetails) {
   try {
-    const response = yield call(addItemRequest(itemDetails));
+    console.log(itemDetails.payload);
+    const response = yield call(addItemRequest, itemDetails.payload);
     const data = response.data;
     yield put(addItemSucceeded(data));
   } catch (error) {
@@ -38,7 +39,7 @@ export function* handleAddItem(itemDetails) {
 
 export function* handleEditItem(itemDetails) {
   try {
-    const response = yield call(editItemRequest(itemDetails));
+    const response = yield call(editItemRequest, itemDetails);
     const data = response.data;
     yield put(editItemSucceeded(data));
   } catch (error) {
@@ -48,7 +49,7 @@ export function* handleEditItem(itemDetails) {
 
 export function* handleRemoveItem(itemDetails) {
   try {
-    const response = yield call(removeItemRequest(itemDetails));
+    const response = yield call(removeItemRequest, itemDetails);
     const data = response.data;
     yield put(removeItemSucceeded(data));
   } catch (error) {

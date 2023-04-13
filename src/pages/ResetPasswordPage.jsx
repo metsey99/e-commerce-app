@@ -31,7 +31,7 @@ export const ResetPasswordPage = () => {
   const navigate = useNavigate();
 
   const handleResetPassword = (values) => {
-    navigate("/password-success");
+    navigate("/password-status");
   };
 
   const validatePassword = () => {
