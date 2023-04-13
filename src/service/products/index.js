@@ -5,18 +5,17 @@ import { addAuthHeader, handleResponse } from "../utils";
 export const getAllProducts = () => {
   const request = axios.request({
     method: "get",
-    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/users`,
-    headers: addAuthHeader(),
+    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/products`,
   });
 
-  return handleResponse(request);
+  return request;
 };
 
 //TODO: add customer id from redux
 export const checkout = (customerId) => {
   const request = axios.request({
     method: "post",
-    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/api/orders/checkout/${customerId}`,
+    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/orders/checkout/${customerId}`,
     headers: addAuthHeader(),
   });
   return handleResponse(request);

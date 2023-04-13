@@ -12,7 +12,6 @@ export const addAuthHeader = () => {
 
 const authToken = () => {
   let user = store.getState().auth.auth;
-  console.log(user);
   if (user) {
     return JSON.parse(user).token;
   }

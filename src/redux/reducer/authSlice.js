@@ -21,7 +21,7 @@ export const authSlice = createSlice({
     },
     loginFailed: (state, action) => {
       state.error = action.payload.message;
-      state.status = "rejected";
+      state.status = "failed";
     },
     logout: (state) => {
       state.auth = null;

@@ -3,7 +3,10 @@ import { ItemContainer } from "./ItemContainer";
 import { Empty, Spin } from "antd";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { removeItemSucceeded } from "../../redux/reducer/cartSlice";
+import {
+  removeItemRequested,
+  removeItemSucceeded,
+} from "../../redux/reducer/cartSlice";
 import styled from "styled-components";
 
 const StyledContainer = styled.div`
@@ -24,7 +27,7 @@ export const OrderItems = () => {
   const dispatch = useDispatch();
 
   const handleItemRemoval = (productId) => {
-    dispatch(removeItemSucceeded(productId));
+    dispatch(removeItemRequested(productId));
   };
 
   return (
@@ -62,7 +65,6 @@ export const OrderItems = () => {
           }
         />
       )}
-      {}
     </StyledContainer>
   );
 };

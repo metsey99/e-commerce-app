@@ -30,6 +30,7 @@ const initialState = {
   editItemStatus: "idle",
   removeItemStatus: "idle",
   fetchItemsStatus: "idle",
+  removeAllItemsStatus: "idle",
 };
 
 export const cartSlice = createSlice({
@@ -94,8 +95,14 @@ export const cartSlice = createSlice({
     removeItemFailed: (state, action) => {
       state.removeItemStatus = "failed";
     },
-    removeAllItems: (state) => {
-      state.items = [];
+    removeAllItemsRequested: (state) => {
+      state.removeAllItemsStatus = "loading";
+    },
+    removeAllItemsSucceeded: (state, action) => {
+      state.removeAllItemsStatus = "idle";
+    },
+    removeAllItemsFailed: (state, action) => {
+      state.removeAllItemsStatus = "failed";
     },
   },
 });

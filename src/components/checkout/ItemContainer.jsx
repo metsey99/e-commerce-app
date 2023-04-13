@@ -4,7 +4,10 @@ import Apple from "../../assets/Apple.jpg";
 import styled from "styled-components";
 import { DeleteOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { editItemSucceeded } from "../../redux/reducer/cartSlice";
+import {
+  editItemRequested,
+  editItemSucceeded,
+} from "../../redux/reducer/cartSlice";
 
 const { confirm } = Modal;
 
@@ -69,7 +72,7 @@ export const ItemContainer = (props) => {
   const dispatch = useDispatch();
 
   const handleQuantChange = (quantity) => {
-    dispatch(editItemSucceeded({ ...item, quantity: Math.max(0, quantity) }));
+    dispatch(editItemRequested({ ...item, quantity: Math.max(0, quantity) }));
   };
 
   const showDeleteConfirm = () => {

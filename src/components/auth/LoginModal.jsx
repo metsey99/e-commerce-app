@@ -19,7 +19,7 @@ export const LoginModal = () => {
   };
 
   const onFinish = (values) => {
-    const credentials = { username: values.email, password: values.password };
+    const credentials = { email: values.email, password: values.password };
     dispatch(loginRequested(credentials));
     navigate("/");
   };
@@ -33,7 +33,7 @@ export const LoginModal = () => {
         footer={null}
         onCancel={handleModalClose}
       >
-        {status === "rejected" && (
+        {status === "failed" && (
           <Alert
             message="An exception has been occured. Please try again later"
             type="error"

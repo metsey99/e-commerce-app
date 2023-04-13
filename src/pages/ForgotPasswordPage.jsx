@@ -53,7 +53,7 @@ export const ForgotPasswordPage = () => {
         navigate("/");
       })
       .catch((err) => {
-        setPageStatus("rejected");
+        setPageStatus("failed");
       });
   };
 
@@ -62,7 +62,7 @@ export const ForgotPasswordPage = () => {
       <StyledWrapper>
         <StyledForm layout="vertical" onFinish={handleResetPassword}>
           <StyledPageName>Forgot Password</StyledPageName>
-          {pageStatus === "rejected" && (
+          {pageStatus === "failed" && (
             <Alert
               message="An exception has been occured. Please try again later"
               type="error"

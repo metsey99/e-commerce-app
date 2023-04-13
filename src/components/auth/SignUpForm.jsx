@@ -1,8 +1,8 @@
 import React from "react";
 import { Alert, Button, DatePicker, Form, Input } from "antd";
 import styled from "styled-components";
-import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import { checkEmailAvailability, register } from "../../service/auth";
 
 const StyledSignUpForm = styled(Form)`
   width: 60%;
@@ -35,16 +35,20 @@ export const SignUpForm = () => {
   const handleSignUp = (values) => {
     if (isEmailValid && helperMsg[0] === "" && helperMsg[1] === "") {
       setPageStatus("loading");
-      values.dob = dayjs(values.dob).format().toString();
-      console.log(values);
-      const res = test();
+      const user = {
+        name: values.name,
+        surname: values.surname,
+        email: values.email,
+        password: values.password,
+      };
+      const res = register(user);
       res
         .then((data) => {
           setPageStatus("idle");
           navigate("/signup-success");
         })
         .catch((err) => {
-          setPageStatus("rejected");
+          setPageStatus("failed");
         });
     }
   };
@@ -80,26 +84,18 @@ export const SignUpForm = () => {
     }
   };
 
-  //TODO: Delete Later
-  function delay(time) {
-    return new Promise((resolve, reject) => setTimeout(resolve, time));
-  }
-
-  //TODO: Replace with API Call
-  async function test() {
-    await delay(1000);
-    return false;
-  }
-
   const handleEmailChange = async (e) => {
     const email = e.target.value;
     setEmail(email);
     if (/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/.test(email)) {
-      let res = test();
-      res.then((data) => {
-        console.log(data);
-        setIsEmailValid(data);
-      });
+      let res = checkEmailAvailability(email);
+      res
+        .then((data) => {
+          setIsEmailValid(false);
+        })
+        .catch((err) => {
+          setIsEmailValid(true);
+        });
     }
   };
 
@@ -107,7 +103,7 @@ export const SignUpForm = () => {
     <StyledWrapper>
       <StyledSignUpForm layout="vertical" onFinish={handleSignUp}>
         <StyledPageName>Sign Up</StyledPageName>
-        {pageStatus === "rejected" && (
+        {pageStatus === "failed" && (
           <Alert
             message="An exception has been occured. Please try again later"
             type="error"

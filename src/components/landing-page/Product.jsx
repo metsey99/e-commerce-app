@@ -2,7 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { Button, Card, Typography, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { addItemSucceeded } from "../../redux/reducer/cartSlice";
+import {
+  addItemRequested,
+  addItemSucceeded,
+} from "../../redux/reducer/cartSlice";
 
 const { Meta } = Card;
 
@@ -26,7 +29,7 @@ export const Product = (props) => {
 
   const handleCardAdd = () => {
     dispatch(
-      addItemSucceeded({
+      addItemRequested({
         name: props.name,
         description: props.description,
         quantity: 1,

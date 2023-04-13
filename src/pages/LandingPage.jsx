@@ -51,6 +51,7 @@ const mockData = [
 export const LandingPage = () => {
   const [allProducts, setAllProducts] = React.useState([]);
 
+  //TODO change the dat
   React.useEffect(() => {
     const res = getAllProducts();
     res.then((data) => {

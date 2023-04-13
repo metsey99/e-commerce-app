@@ -3,9 +3,9 @@ import axios from "axios";
 export const loginRequest = (credentials) => {
   return axios.request({
     method: "post",
-    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/users/authenticate`,
+    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/login`,
     data: {
-      username: credentials.username,
+      email: credentials.email,
       password: credentials.password,
     },
   });

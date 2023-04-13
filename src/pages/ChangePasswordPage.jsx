@@ -57,7 +57,7 @@ export const ChangePasswordPage = () => {
         navigate("/password-success");
       })
       .catch((err) => {
-        setPageStatus("rejected");
+        setPageStatus("failed");
       });
   };
   const validatePassword = () => {
@@ -95,7 +95,7 @@ export const ChangePasswordPage = () => {
       <StyledWrapper>
         <StyledForm layout="vertical" onFinish={handleResetPassword}>
           <StyledPageName>Change Password</StyledPageName>
-          {pageStatus === "rejected" && (
+          {pageStatus === "failed" && (
             <Alert
               message="An exception has been occured. Please try again later"
               type="error"
