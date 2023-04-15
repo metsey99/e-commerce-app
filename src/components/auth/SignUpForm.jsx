@@ -53,7 +53,7 @@ export const SignUpForm = () => {
       res
         .then((data) => {
           setPageStatus("idle");
-          navigate("/signup-success");
+          navigate("/signup-status");
         })
         .catch((err) => {
           setPageStatus("failed");
@@ -73,8 +73,8 @@ export const SignUpForm = () => {
   const detectIfIncludes = (password) => {
     const { name, surname, email } = form.getFieldsValue([
       "name",
-      "surname",
       "email",
+      "surname",
     ]);
     return (
       password.includes(name) ||

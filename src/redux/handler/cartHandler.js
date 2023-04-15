@@ -6,6 +6,8 @@ import {
   editItemSucceeded,
   fetchItemsFailed,
   fetchItemsSucceeded,
+  removeAllItemsFailed,
+  removeAllItemsSucceeded,
   removeItemFailed,
   removeItemSucceeded,
 } from "../reducer/cartSlice";
@@ -13,6 +15,7 @@ import {
   addItemRequest,
   editItemRequest,
   fetchItemsRequest,
+  removeAllItemsRequest,
   removeItemRequest,
 } from "../requests/cart";
 
@@ -28,7 +31,7 @@ export function* handleFetchItems() {
 
 export function* handleAddItem(itemDetails) {
   try {
-    console.log(itemDetails.payload);
+    console.log("asd", itemDetails.payload);
     const response = yield call(addItemRequest, itemDetails.payload);
     const data = response.data;
     yield put(addItemSucceeded(data));
@@ -51,8 +54,19 @@ export function* handleRemoveItem(itemDetails) {
   try {
     const response = yield call(removeItemRequest, itemDetails);
     const data = response.data;
+    console.log(data);
     yield put(removeItemSucceeded(data));
   } catch (error) {
     yield put(removeItemFailed(error));
+  }
+}
+
+export function* handleRemoveItems() {
+  try {
+    const response = yield call(removeAllItemsRequest);
+    const data = response.data;
+    yield put(removeAllItemsSucceeded(data));
+  } catch (error) {
+    yield put(removeAllItemsFailed(error));
   }
 }

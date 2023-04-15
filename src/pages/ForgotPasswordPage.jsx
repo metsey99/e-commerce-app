@@ -3,6 +3,7 @@ import { PageWrapper } from "./PageWrapper";
 import { Alert, Button, Form, Input, Typography } from "antd";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { forgotPassword } from "../service/auth";
 
 const StyledForm = styled(Form)`
   width: 50%;
@@ -33,23 +34,13 @@ export const ForgotPasswordPage = () => {
   const navigate = useNavigate();
   const [pageStatus, setPageStatus] = React.useState("idle");
 
-  //TODO: Delete Later
-  function delay(time) {
-    return new Promise((resolve, reject) => setTimeout(resolve, time));
-  }
-
-  //TODO: Replace with API Call
-  async function test() {
-    await delay(1500);
-    return true;
-  }
-
   const handleResetPassword = (values) => {
     setPageStatus("loading");
-    const res = test();
+    const res = forgotPassword(values.email);
     res
       .then((data) => {
         setPageStatus("idle");
+        // mail gelecek ekrani ekle
         navigate("/");
       })
       .catch((err) => {

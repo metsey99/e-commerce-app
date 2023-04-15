@@ -4,11 +4,13 @@ import {
   handleEditItem,
   handleFetchItems,
   handleRemoveItem,
+  handleRemoveItems,
 } from "./handler/cartHandler";
 import {
   addItemRequested,
   editItemRequested,
   fetchItemsRequested,
+  removeAllItemsRequested,
   removeItemRequested,
 } from "./reducer/cartSlice";
 
@@ -28,11 +30,16 @@ export function* watcherRemoveItem() {
   yield takeEvery(removeItemRequested, handleRemoveItem);
 }
 
+export function* watcherRemoveAllItems() {
+  yield takeLatest(removeAllItemsRequested, handleRemoveItems);
+}
+
 export default function* root() {
   yield all([
     fork(watcherFetchItems),
     fork(watcherAddItem),
     fork(watcherEditItem),
     fork(watcherRemoveItem),
+    fork(watcherRemoveAllItems),
   ]);
 }

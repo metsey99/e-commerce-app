@@ -50,6 +50,7 @@ const StyledPopupBottom = styled.div`
 `;
 
 const CartContent = (products) => {
+  console.log(products);
   return products.length ? (
     <StyledItemsContainer>
       {products.map((p) => (
@@ -63,7 +64,7 @@ const CartContent = (products) => {
           </StyledImageContainer>
           <Col>
             <StyledPriceContainer>
-              {(p.unitPrice * p.quantity).toFixed(2)}TL
+              {(p.price * p.quantity).toFixed(2)}TL
             </StyledPriceContainer>
           </Col>
         </StyledItemContainer>

@@ -8,7 +8,7 @@ import {
   loginSucceeded,
 } from "../../redux/reducer/authSlice";
 import styled from "styled-components";
-import { loginRequest } from "../../service/auth";
+import { login2faRequest, loginRequest } from "../../service/auth";
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -34,6 +34,8 @@ const StyledLoginForm = styled(Form)`
 `;
 
 export const LoginForm = () => {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [isVerificationStep, setIsVerificationStep] = React.useState(false);
   const [loginStatus, setLoginStatus] = React.useState("idle");
   const navigate = useNavigate();
@@ -57,19 +59,24 @@ export const LoginForm = () => {
         setLoginStatus("failed");
         dispatch(loginFailed(err));
       });
+    // setEmail("");
+    // setPassword("");
   };
 
   const onVerificationFinish = (values) => {
     setLoginStatus("loading");
-
     //TODO: burada api call yapilacak
-    const res = test();
+    const res = login2faRequest({
+      verificationCode: values.verificationCode,
+      email: email,
+      password: password,
+    });
     res
       .then((data) => {
         //TODO burada jwt gelmeli
         console.log(data);
         setLoginStatus("idle");
-        dispatch(loginSucceeded({}));
+        dispatch(loginSucceeded({ token: data.data }));
         navigate("/");
       })
       .catch((err) => {
@@ -148,7 +155,14 @@ export const LoginForm = () => {
             label="Email"
             rules={[{ required: true, message: "Please input your email!" }]}
           >
-            <Input placeholder="Email" size="large" />
+            <Input
+              placeholder="Email"
+              size="large"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
           </Form.Item>
 
           <Form.Item
@@ -156,7 +170,14 @@ export const LoginForm = () => {
             label="Password"
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input.Password placeholder="Password" size="large" />
+            <Input.Password
+              placeholder="Password"
+              size="large"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
           </Form.Item>
           <Form.Item>
             <Link to={"/forgot-password"} color="primary">

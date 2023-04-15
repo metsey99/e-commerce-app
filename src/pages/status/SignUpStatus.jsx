@@ -1,8 +1,10 @@
 import { Button, Result } from "antd";
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { PageWrapper } from "../PageWrapper";
 import { LoadingOutlined } from "@ant-design/icons";
+import { loginSucceeded } from "../../redux/reducer/authSlice";
+import { useDispatch } from "react-redux";
 
 //TODO: Delete Later
 function delay(time) {
@@ -17,21 +19,16 @@ async function test() {
 
 export const SignUpStatus = (props) => {
   const [verificationStatus, setVerificationStatus] = React.useState("loading");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { token } = useParams();
 
   React.useEffect(() => {
-    //TODO aktivasyon registration
-    const res = test();
-
-    res
-      .then((data) => {
-        setVerificationStatus("idle");
-        //set jwt
-        navigate("/");
-      })
-      .catch((err) => {
-        setVerificationStatus("failed");
-      });
+    if (token) {
+      console.log("TOKEN", token);
+      dispatch(loginSucceeded({ token: token }));
+      navigate("/");
+    }
   }, []);
 
   return (

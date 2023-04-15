@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   status: "idle",
-  auth: '{"token":"asd"}', //localStorage.getItem("user"),
+  auth: localStorage.getItem("user"),
   error: "",
 };
 
@@ -14,6 +14,7 @@ export const authSlice = createSlice({
       state.status = "loading";
     },
     loginSucceeded: (state, action) => {
+      console.log(action.payload);
       localStorage.setItem("user", JSON.stringify(action.payload));
 
       state.auth = JSON.stringify(action.payload);

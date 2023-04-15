@@ -10,13 +10,13 @@ export const fetchItemsRequest = () => {
 };
 
 export const addItemRequest = (itemDetails) => {
+  console.log("ASD", itemDetails);
   return axios.request({
     method: "post",
     url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/addToCart`,
-    // headers: addAuthHeader(),
     data: {
       productId: itemDetails.id,
-      price: itemDetails.unitPrice,
+      price: itemDetails.price,
       quantity: itemDetails.quantity,
     },
   });
@@ -39,10 +39,9 @@ export const removeItemRequest = (itemDetails) => {
   return axios.request({
     method: "post",
     url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/removeFromCart`,
-    headers: addAuthHeader(),
     data: {
       productId: itemDetails.id,
-      price: itemDetails.unitPrice,
+      price: itemDetails.price,
       quantity: itemDetails.quantity,
     },
   });
@@ -52,6 +51,5 @@ export const removeAllItemsRequest = () => {
   return axios.request({
     method: "post",
     url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/clearCart`,
-    headers: addAuthHeader(),
   });
 };

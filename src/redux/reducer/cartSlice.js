@@ -25,7 +25,7 @@ const mockData3 = {
 };
 
 const initialState = {
-  items: [mockData1, mockData2, mockData3],
+  items: [],
   addItemStatus: "idle",
   editItemStatus: "idle",
   removeItemStatus: "idle",
@@ -41,6 +41,7 @@ export const cartSlice = createSlice({
       state.fetchItemsStatus = "loading";
     },
     fetchItemsSucceeded: (state, action) => {
+      console.log(action.payload);
       state.items = action.payload;
       state.fetchItemsStatus = "idle";
     },
@@ -51,8 +52,11 @@ export const cartSlice = createSlice({
       state.addItemStatus = "loading";
     },
     addItemSucceeded: (state, action) => {
-      console.log("action", action.payload);
-      if (state.items.some((item) => item.id === action.payload.id)) {
+      console.log("action", action.payload.productId);
+      console.log(
+        state.items.some((item) => item.id === action.payload.productId)
+      );
+      if (state.items.some((item) => item.id === action.payload.productId)) {
         state.items = state.items.map((item) => {
           if (item.id === action.payload.id) {
             return { ...item, quantity: item.quantity + 1 };
@@ -61,7 +65,7 @@ export const cartSlice = createSlice({
           }
         });
       } else {
-        state.items.push(action.payload);
+        state.items.push({ ...action.payload, id: action.payload.productId });
       }
 
       state.addItemStatus = "idle";
@@ -90,6 +94,7 @@ export const cartSlice = createSlice({
       state.removeItemStatus = "loading";
     },
     removeItemSucceeded: (state, action) => {
+      console.log(action.payload);
       state.items = state.items.filter((item) => item.id !== action.payload);
 
       state.removeItemStatus = "idle";

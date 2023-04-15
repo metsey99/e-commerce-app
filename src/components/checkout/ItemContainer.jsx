@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   editItemRequested,
   editItemSucceeded,
+  removeItemRequested,
 } from "../../redux/reducer/cartSlice";
 
 const { confirm } = Modal;
@@ -65,6 +66,7 @@ const StyledPrice = styled(Col)`
 `;
 
 export const ItemContainer = (props) => {
+  const [quantity, setQuantity] = React.useState(props.quantity);
   const item = useSelector(
     (state) => state.cart.items.filter((item) => item.id === props.id)[0]
   );
@@ -73,6 +75,7 @@ export const ItemContainer = (props) => {
 
   const handleQuantChange = (quantity) => {
     dispatch(editItemRequested({ ...item, quantity: Math.max(1, quantity) }));
+    setQuantity(Math.max(1, quantity));
   };
 
   const showDeleteConfirm = () => {
@@ -101,32 +104,27 @@ export const ItemContainer = (props) => {
       <StyledCounter span={6} md={10} lg={6} xs={12}>
         <Button
           type="primary"
-          onClick={() => handleQuantChange(item.quantity - 1)}
-          disabled={item.quantity === 1}
+          onClick={() => handleQuantChange(quantity - 1)}
+          disabled={quantity === 1}
         >
           -
         </Button>
         <input
           type="text"
           pattern="[0-9]*"
-          value={item.quantity}
+          value={props.quantity}
           onChange={(e) => {
             handleQuantChange(
-              e.target.validity.valid ? e.target.value : item.quantity
+              e.target.validity.valid ? e.target.value : quantity
             );
           }}
         />
-        <Button
-          type="primary"
-          onClick={() => handleQuantChange(item.quantity + 1)}
-        >
+        <Button type="primary" onClick={() => handleQuantChange(quantity + 1)}>
           +
         </Button>
       </StyledCounter>
       <StyledPrice lg={6} xs={12}>
-        <Typography>
-          {(props.unitPrice * item.quantity).toFixed(2)}TL
-        </Typography>
+        <Typography>{(props.unitPrice * quantity).toFixed(2)}TL</Typography>
         <Button onClick={showDeleteConfirm} danger>
           <DeleteOutlined />
         </Button>

@@ -3,6 +3,9 @@ import { PageWrapper } from "./PageWrapper";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Button, Form, Input } from "antd";
+import { changePassword, retrieveUserInfo } from "../service/auth";
+import { useDispatch } from "react-redux";
+import { loginSucceeded } from "../redux/reducer/authSlice";
 
 const StyledForm = styled(Form)`
   width: 50%;
@@ -24,14 +27,35 @@ const StyledPageName = styled.p`
 `;
 
 export const ResetPasswordPage = () => {
+  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [helperMsg, setHelperMsg] = React.useState(["", ""]);
   const [cnfPassword, setCnfPassword] = React.useState("");
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    const res = retrieveUserInfo(id);
+    res
+      .then((data) => {
+        setEmail(data.data.email);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleResetPassword = (values) => {
-    navigate("/password-status");
+    const res = changePassword({ email: email, password: password, token: id });
+    res
+      .then((data) => {
+        dispatch(loginSucceeded({ token: data.data.token }));
+        navigate("/password-status");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const validatePassword = () => {

@@ -26,8 +26,8 @@ export const OrderItems = () => {
   );
   const dispatch = useDispatch();
 
-  const handleItemRemoval = (productId) => {
-    dispatch(removeItemRequested(productId));
+  const handleItemRemoval = (itemDetails) => {
+    dispatch(removeItemRequested(itemDetails));
   };
 
   return (
@@ -48,9 +48,11 @@ export const OrderItems = () => {
               id={item.id}
               name={item.name}
               description={item.description}
-              unitPrice={item.unitPrice}
+              unitPrice={item.price}
               quantity={item.quantity}
-              removeItem={() => handleItemRemoval(item.id)}
+              removeItem={() =>
+                handleItemRemoval({ id: item.id, quantity: 0, price: 0 })
+              }
             />
           );
         })

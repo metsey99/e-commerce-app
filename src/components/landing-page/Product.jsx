@@ -28,11 +28,12 @@ export const Product = (props) => {
   const { auth } = useSelector((state) => state.auth);
 
   const handleCardAdd = () => {
+    console.log(props.id);
     dispatch(
       addItemRequested({
         quantity: 1,
         id: props.id,
-        unitPrice: props.unitPrice,
+        price: props.unitPrice,
       })
     );
     messageApi.open({

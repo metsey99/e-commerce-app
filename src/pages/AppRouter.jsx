@@ -21,7 +21,7 @@ const AppRouter = () => {
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/password-status" element={<PassChangeStatus />} />
-      <Route path="/signup-status" element={<SignUpStatus />} />
+      <Route path="/signup-status/:token" element={<SignUpStatus />} />
       <Route path="/order-status/:status" element={<CheckoutStatus />} />
       <Route path="/reset-password/:id" element={<ResetPasswordPage />} />
       <Route path="/change-password" element={<ChangePasswordPage />} />

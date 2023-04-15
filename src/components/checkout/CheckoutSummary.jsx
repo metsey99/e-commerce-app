@@ -75,7 +75,7 @@ export const CheckoutSummary = () => {
 
   const calculateTotal = () => {
     let total = 0;
-    items.forEach((item) => (total += item.quantity * item.unitPrice));
+    items.forEach((item) => (total += item.quantity * item.price));
     return total.toFixed(2);
   };
 
