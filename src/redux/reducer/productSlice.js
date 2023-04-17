@@ -5,7 +5,7 @@ const initialState = {
 };
 
 export const productSlice = createSlice({
-  name: "cart",
+  name: "product",
   initialState,
   reducers: {
     productFetch: (state, action) => {

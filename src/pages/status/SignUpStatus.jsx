@@ -6,17 +6,6 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { loginSucceeded } from "../../redux/reducer/authSlice";
 import { useDispatch } from "react-redux";
 
-//TODO: Delete Later
-function delay(time) {
-  return new Promise((resolve, reject) => setTimeout(reject, time));
-}
-
-//TODO: Replace with API Call
-async function test() {
-  await delay(1500);
-  return true;
-}
-
 export const SignUpStatus = (props) => {
   const [verificationStatus, setVerificationStatus] = React.useState("loading");
   const dispatch = useDispatch();
@@ -27,7 +16,10 @@ export const SignUpStatus = (props) => {
     if (token) {
       console.log("TOKEN", token);
       dispatch(loginSucceeded({ token: token }));
+      setVerificationStatus("idle");
       navigate("/");
+    } else {
+      setVerificationStatus("failed");
     }
   }, []);
 

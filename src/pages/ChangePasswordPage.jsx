@@ -3,7 +3,9 @@ import { PageWrapper } from "./PageWrapper";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Alert, Button, Form, Input } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { loginSucceeded } from "../redux/reducer/authSlice";
+import { changePassword, retrieveUserInfo } from "../service/auth";
 
 const StyledForm = styled(Form)`
   width: 50%;
@@ -24,40 +26,48 @@ const StyledPageName = styled.p`
 `;
 
 export const ChangePasswordPage = () => {
+  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [helperMsg, setHelperMsg] = React.useState(["", ""]);
   const [cnfPassword, setCnfPassword] = React.useState("");
   const [pageStatus, setPageStatus] = React.useState("idle");
   const { auth } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     if (!auth) {
       navigate("/");
+    } else {
+      const token = JSON.parse(auth).token;
+      const res = retrieveUserInfo(token);
+      res
+        .then((data) => {
+          setEmail(data.data.email);
+        })
+        .catch((err) => {
+          console.log(err);
+          pageStatus("failed");
+        });
     }
   }, []);
 
-  //TODO: Delete Later
-  function delay(time) {
-    return new Promise((resolve, reject) => setTimeout(resolve, time));
-  }
-
-  //TODO: Replace with API Call
-  async function test() {
-    await delay(1000);
-    return true;
-  }
-
   const handleResetPassword = (values) => {
     setPageStatus("loading");
-    const res = test();
+    const token = JSON.parse(auth).token;
+    const res = changePassword({
+      email: email,
+      password: password,
+      token: token,
+    });
     res
       .then((data) => {
-        setPageStatus("idle");
+        dispatch(loginSucceeded({ token: data.data.token }));
         navigate("/password-status");
       })
       .catch((err) => {
-        setPageStatus("failed");
+        console.log(err);
+        pageStatus("failed");
       });
   };
   const validatePassword = () => {

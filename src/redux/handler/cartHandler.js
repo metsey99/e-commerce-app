@@ -31,7 +31,6 @@ export function* handleFetchItems() {
 
 export function* handleAddItem(itemDetails) {
   try {
-    console.log("asd", itemDetails.payload);
     const response = yield call(addItemRequest, itemDetails.payload);
     const data = response.data;
     yield put(addItemSucceeded(data));
@@ -42,7 +41,7 @@ export function* handleAddItem(itemDetails) {
 
 export function* handleEditItem(itemDetails) {
   try {
-    const response = yield call(editItemRequest, itemDetails);
+    const response = yield call(editItemRequest, itemDetails.payload);
     const data = response.data;
     yield put(editItemSucceeded(data));
   } catch (error) {
@@ -52,7 +51,7 @@ export function* handleEditItem(itemDetails) {
 
 export function* handleRemoveItem(itemDetails) {
   try {
-    const response = yield call(removeItemRequest, itemDetails);
+    const response = yield call(removeItemRequest, itemDetails.payload);
     const data = response.data;
     console.log(data);
     yield put(removeItemSucceeded(data));

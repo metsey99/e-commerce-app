@@ -1,5 +1,5 @@
 import axios from "axios";
-import { addAuthHeader, handleResponse } from "../utils";
+import { addAuthHeader } from "../utils";
 
 //TODO: change endpoint
 export const getAllProducts = () => {
@@ -18,5 +18,5 @@ export const checkout = () => {
     url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/checkout`,
     headers: addAuthHeader(),
   });
-  return handleResponse(request);
+  return request;
 };

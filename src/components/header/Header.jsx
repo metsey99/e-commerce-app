@@ -3,7 +3,6 @@ import { Row, Col, Button, Spin } from "antd";
 import styled from "styled-components";
 import { Cart } from "./Cart";
 import { Profile } from "./Profile";
-import { LoginModal } from "../auth/LoginForm";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 import { useDispatch, useSelector } from "react-redux";

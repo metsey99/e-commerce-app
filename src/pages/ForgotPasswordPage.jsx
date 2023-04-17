@@ -40,8 +40,7 @@ export const ForgotPasswordPage = () => {
     res
       .then((data) => {
         setPageStatus("idle");
-        // mail gelecek ekrani ekle
-        navigate("/");
+        navigate("/check-mail");
       })
       .catch((err) => {
         setPageStatus("failed");

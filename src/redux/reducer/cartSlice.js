@@ -1,29 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const mockData1 = {
-  name: "Apple",
-  description: "Highly accessible, many people's favorite fruit, red color",
-  price: 1.25,
-  quantity: 3,
-  id: "123",
-};
-
-const mockData2 = {
-  name: "Orange",
-  description: "Highly accessible, many people's favorite fruit, orange color",
-  price: 2.3,
-  quantity: 5,
-  id: "124",
-};
-
-const mockData3 = {
-  name: "Banana",
-  description: "Highly accessible, many people's favorite fruit, yellow color",
-  price: 0.85,
-  quantity: 7,
-  id: "125",
-};
-
 const initialState = {
   items: [],
   addItemStatus: "idle",
@@ -41,7 +17,6 @@ export const cartSlice = createSlice({
       state.fetchItemsStatus = "loading";
     },
     fetchItemsSucceeded: (state, action) => {
-      console.log(action.payload);
       state.items = action.payload;
       state.fetchItemsStatus = "idle";
     },
@@ -52,26 +27,21 @@ export const cartSlice = createSlice({
       state.addItemStatus = "loading";
     },
     addItemSucceeded: (state, action) => {
-      console.log("action", action.payload.productId);
-      console.log(
-        state.items.some((item) => item.id === action.payload.productId)
-      );
-      if (state.items.some((item) => item.id === action.payload.productId)) {
-        state.items = state.items.map((item) => {
-          if (item.id === action.payload.id) {
-            return { ...item, quantity: item.quantity + 1 };
-          } else {
-            return item;
-          }
-        });
-      } else {
-        state.items.push({ ...action.payload, id: action.payload.productId });
+      let isUpdated = false;
+      for (let i = 0; i < state.items.length; i++) {
+        if (state.items[i].productId === action.payload.productId) {
+          state.items[i].quantity += 1;
+          isUpdated = true;
+          break;
+        }
+      }
+      if (!isUpdated) {
+        state.items.push(action.payload);
       }
 
       state.addItemStatus = "idle";
     },
     addItemFailed: (state, action) => {
-      console.log(action.payload);
       state.addItemStatus = "failed";
     },
     editItemRequested: (state) => {
@@ -79,7 +49,7 @@ export const cartSlice = createSlice({
     },
     editItemSucceeded: (state, action) => {
       state.items = state.items.map((item) => {
-        if (item.id === action.payload.id) {
+        if (item.productId === action.payload.productId) {
           return action.payload;
         } else {
           return item;
@@ -94,8 +64,9 @@ export const cartSlice = createSlice({
       state.removeItemStatus = "loading";
     },
     removeItemSucceeded: (state, action) => {
-      console.log(action.payload);
-      state.items = state.items.filter((item) => item.id !== action.payload);
+      state.items = state.items.filter(
+        (item) => item.productId !== action.payload.toString()
+      );
 
       state.removeItemStatus = "idle";
     },

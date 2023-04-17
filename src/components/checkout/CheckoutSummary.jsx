@@ -49,17 +49,6 @@ export const CheckoutSummary = () => {
     useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  //TODO: Delete Later
-  function delay(time) {
-    return new Promise((resolve, reject) => setTimeout(reject, time));
-  }
-
-  //TODO: Replace with API Call
-  async function test() {
-    await delay(1500);
-    return true;
-  }
-
   const handlePurchase = () => {
     const res = checkout();
     res
@@ -68,7 +57,6 @@ export const CheckoutSummary = () => {
         navigate("/order-status/success");
       })
       .catch((err) => {
-        console.log("CHECKOUT ERR", err);
         navigate("/order-status/failed");
       });
   };
@@ -92,8 +80,6 @@ export const CheckoutSummary = () => {
       onCancel() {},
     });
   };
-
-  console.log(removeItemStatus, editItemStatus, fetchItemsStatus);
 
   return (
     <StyledSummaryContainer>

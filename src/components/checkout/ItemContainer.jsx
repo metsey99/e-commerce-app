@@ -1,14 +1,9 @@
-import { Button, Col, Row, Typography, Modal } from "antd";
+import { Button, Col, Row, Typography, Modal, Spin } from "antd";
 import React from "react";
-import Apple from "../../assets/Apple.jpg";
 import styled from "styled-components";
 import { DeleteOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  editItemRequested,
-  editItemSucceeded,
-  removeItemRequested,
-} from "../../redux/reducer/cartSlice";
+import { editItemRequested } from "../../redux/reducer/cartSlice";
 
 const { confirm } = Modal;
 
@@ -67,14 +62,18 @@ const StyledPrice = styled(Col)`
 
 export const ItemContainer = (props) => {
   const [quantity, setQuantity] = React.useState(props.quantity);
-  const item = useSelector(
-    (state) => state.cart.items.filter((item) => item.id === props.id)[0]
-  );
+  const { editItemStatus } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
 
   const handleQuantChange = (quantity) => {
-    dispatch(editItemRequested({ ...item, quantity: Math.max(1, quantity) }));
+    dispatch(
+      editItemRequested({
+        id: props.id,
+        quantity: Math.max(1, quantity),
+        price: props.unitPrice,
+      })
+    );
     setQuantity(Math.max(1, quantity));
   };
 
@@ -94,41 +93,52 @@ export const ItemContainer = (props) => {
 
   return (
     <StyledContainer justify="space-between">
-      <StyledItemInfo md={14} span={12} xs={24} lg={10}>
-        <img src={props.productImg} alt={props.name} />
-        <div>
-          <StyledProductName>{props.name}</StyledProductName>
-          <Typography>{props.description}</Typography>
-        </div>
-      </StyledItemInfo>
-      <StyledCounter span={6} md={10} lg={6} xs={12}>
-        <Button
-          type="primary"
-          onClick={() => handleQuantChange(quantity - 1)}
-          disabled={quantity === 1}
-        >
-          -
-        </Button>
-        <input
-          type="text"
-          pattern="[0-9]*"
-          value={props.quantity}
-          onChange={(e) => {
-            handleQuantChange(
-              e.target.validity.valid ? e.target.value : quantity
-            );
-          }}
-        />
-        <Button type="primary" onClick={() => handleQuantChange(quantity + 1)}>
-          +
-        </Button>
-      </StyledCounter>
-      <StyledPrice lg={6} xs={12}>
-        <Typography>{(props.unitPrice * quantity).toFixed(2)}TL</Typography>
-        <Button onClick={showDeleteConfirm} danger>
-          <DeleteOutlined />
-        </Button>
-      </StyledPrice>
+      {editItemStatus === "loading" ? (
+        <Spin size="large" />
+      ) : (
+        <>
+          <StyledItemInfo md={14} span={12} xs={24} lg={10}>
+            <img src={props.productImg} alt={props.name} />
+            <div>
+              <StyledProductName>{props.name}</StyledProductName>
+              <Typography>{props.description}</Typography>
+            </div>
+          </StyledItemInfo>
+
+          <StyledCounter span={6} md={10} lg={6} xs={12}>
+            <Button
+              type="primary"
+              onClick={() => handleQuantChange(quantity - 1)}
+              disabled={quantity === 1}
+            >
+              -
+            </Button>
+            <input
+              type="text"
+              pattern="[0-9]*"
+              value={props.quantity}
+              onChange={(e) => {
+                handleQuantChange(
+                  e.target.validity.valid ? e.target.value : quantity
+                );
+              }}
+            />
+            <Button
+              type="primary"
+              onClick={() => handleQuantChange(quantity + 1)}
+            >
+              +
+            </Button>
+          </StyledCounter>
+
+          <StyledPrice lg={6} xs={12}>
+            <Typography>{(props.unitPrice * quantity).toFixed(2)}TL</Typography>
+            <Button onClick={showDeleteConfirm} danger>
+              <DeleteOutlined />
+            </Button>
+          </StyledPrice>
+        </>
+      )}
     </StyledContainer>
   );
 };

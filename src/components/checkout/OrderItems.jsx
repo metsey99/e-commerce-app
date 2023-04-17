@@ -3,10 +3,7 @@ import { ItemContainer } from "./ItemContainer";
 import { Empty, Spin } from "antd";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  removeItemRequested,
-  removeItemSucceeded,
-} from "../../redux/reducer/cartSlice";
+import { removeItemRequested } from "../../redux/reducer/cartSlice";
 import styled from "styled-components";
 
 const StyledContainer = styled.div`
@@ -21,13 +18,26 @@ const StyledContainer = styled.div`
 `;
 
 export const OrderItems = () => {
-  const { items, editItemStatus, removeItemStatus } = useSelector(
-    (state) => state.cart
-  );
+  const { items, editItemStatus, removeItemStatus, fetchItemsStatus } =
+    useSelector((state) => state.cart);
+  const products = useSelector((state) => state.product.products);
   const dispatch = useDispatch();
 
   const handleItemRemoval = (itemDetails) => {
+    console.log("REMOVE", itemDetails);
     dispatch(removeItemRequested(itemDetails));
+  };
+
+  const matchProducts = (item) => {
+    const matched = products.filter((p) => p.id === item.productId)[0];
+    if (matched) {
+      return {
+        name: matched.name,
+        description: matched.description,
+        quantity: item.quantity,
+        price: item.price,
+      };
+    }
   };
 
   return (
@@ -38,20 +48,23 @@ export const OrderItems = () => {
         removeItemStatus !== "idle"
       }
     >
-      {editItemStatus !== "idle" || removeItemStatus !== "idle" ? (
+      {editItemStatus !== "idle" ||
+      removeItemStatus !== "idle" ||
+      fetchItemsStatus !== "idle" ? (
         <Spin size="large" />
       ) : items.length ? (
         items.map((item) => {
+          const { name, description, quantity, price } = matchProducts(item);
           return (
             //TODO: image ekle
             <ItemContainer
-              id={item.id}
-              name={item.name}
-              description={item.description}
-              unitPrice={item.price}
-              quantity={item.quantity}
+              id={item.productId}
+              name={name}
+              description={description}
+              unitPrice={price}
+              quantity={quantity}
               removeItem={() =>
-                handleItemRemoval({ id: item.id, quantity: 0, price: 0 })
+                handleItemRemoval({ id: item.productId, quantity: 0, price: 0 })
               }
             />
           );

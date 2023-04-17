@@ -25,11 +25,10 @@ export const addItemRequest = (itemDetails) => {
 export const editItemRequest = (itemDetails) => {
   return axios.request({
     method: "put",
-    url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/updateCart`,
-    headers: addAuthHeader(),
+    url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/updateOrder`,
     data: {
       productId: itemDetails.id,
-      price: itemDetails.unitPrice,
+      price: itemDetails.price,
       quantity: itemDetails.quantity,
     },
   });

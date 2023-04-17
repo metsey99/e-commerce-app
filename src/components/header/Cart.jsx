@@ -1,4 +1,4 @@
-import { Popover, Button, Divider, Row, Col, Empty } from "antd";
+import { Popover, Button, Divider, Row, Col, Empty, Spin } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -50,7 +50,6 @@ const StyledPopupBottom = styled.div`
 `;
 
 const CartContent = (products) => {
-  console.log(products);
   return products.length ? (
     <StyledItemsContainer>
       {products.map((p) => (
@@ -86,7 +85,7 @@ const CartContent = (products) => {
 };
 
 export const Cart = () => {
-  const { items } = useSelector((state) => state.cart);
+  const { items, addItemStatus } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -105,10 +104,14 @@ export const Cart = () => {
       trigger="hover"
       placement="bottomRight"
     >
-      <Button>
-        <ShoppingCartOutlined />
-        Cart
-      </Button>
+      {addItemStatus === "loading" ? (
+        <Spin size="large" />
+      ) : (
+        <Button>
+          <ShoppingCartOutlined />
+          Cart
+        </Button>
+      )}
     </Popover>
   );
 };
