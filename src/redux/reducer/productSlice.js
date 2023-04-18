@@ -13,7 +13,6 @@ export const productSlice = createSlice({
       state.productFetchStatus = "loading";
     },
     productsFetchSucceeded: (state, action) => {
-      console.log("ASD");
       state.products = action.payload;
       state.productFetchStatus = "idle";
     },

@@ -63,16 +63,15 @@ const matchProducts = (products, item) => {
 };
 
 const CartContent = (products, addedItems) => {
-  return addedItems.length ? (
+  return addedItems && addedItems.length ? (
     <StyledItemsContainer>
       {addedItems.map((i) => {
         const item = matchProducts(products, i);
-        console.log(item);
         return (
           <StyledItemContainer>
             <StyledImageContainer>
               <div>
-                <StyledItemName>{item.name}</StyledItemName>
+                <StyledItemName>{item?.name}</StyledItemName>
                 <StyledCount>{i.quantity} pcs.</StyledCount>
               </div>
             </StyledImageContainer>
