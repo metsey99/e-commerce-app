@@ -24,7 +24,6 @@ export const OrderItems = () => {
   const dispatch = useDispatch();
 
   const handleItemRemoval = (itemDetails) => {
-    console.log("REMOVE", itemDetails);
     dispatch(removeItemRequested(itemDetails));
   };
 

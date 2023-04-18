@@ -33,7 +33,16 @@ export const register = (user) => {
       lastName: user.surname,
       email: user.email,
       password: user.password,
+      dateOfBirth: user.dateOfBirth,
+      mobile: user.mobile,
     },
+  });
+};
+
+export const verifyRegister = (token) => {
+  return axios.request({
+    method: "get",
+    url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/confirm?token=${token}`,
   });
 };
 
@@ -66,9 +75,7 @@ export const retrieveUserInfo = (token) => {
   });
 };
 
-//TODO Bunlar lazim mi sor
 export const changePassword = (credentials) => {
-  console.log(credentials);
   const request = axios.request({
     method: "post",
     url: `${process.env.REACT_APP_MOCK_BACKEND_URL}/password-reset`,

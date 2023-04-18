@@ -65,7 +65,6 @@ export const LoginForm = () => {
 
   const onVerificationFinish = (values) => {
     setLoginStatus("loading");
-    //TODO: burada api call yapilacak
     const res = login2faRequest({
       verificationCode: values.verificationCode,
       email: email,
@@ -73,8 +72,6 @@ export const LoginForm = () => {
     });
     res
       .then((data) => {
-        //TODO burada jwt gelmeli
-        console.log(data);
         setLoginStatus("idle");
         dispatch(loginSucceeded({ token: data.data }));
         navigate("/");

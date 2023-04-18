@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { fetchItemsRequested } from "../../redux/reducer/cartSlice";
+import { getAllProducts } from "../../service/products";
+import { productFetch } from "../../redux/reducer/productSlice";
 
 const StyledItemContainer = styled(Row)`
   display: flex;
@@ -49,25 +51,38 @@ const StyledPopupBottom = styled.div`
   margin-top: 20px;
 `;
 
-const CartContent = (products) => {
-  return products.length ? (
+const matchProducts = (products, item) => {
+  const matched = products.filter((p) => p.id === item.productId)[0];
+  if (matched) {
+    return {
+      name: matched.name,
+      quantity: item.quantity,
+      price: item.price,
+    };
+  }
+};
+
+const CartContent = (products, addedItems) => {
+  return addedItems.length ? (
     <StyledItemsContainer>
-      {products.map((p) => (
-        <StyledItemContainer>
-          <StyledImageContainer>
-            {/* <StyledImage src={Apple} alt="apple" /> */}
-            <div>
-              <StyledItemName>{p.name}</StyledItemName>
-              <StyledCount>{p.quantity} pcs.</StyledCount>
-            </div>
-          </StyledImageContainer>
-          <Col>
-            <StyledPriceContainer>
-              {(p.price * p.quantity).toFixed(2)}TL
-            </StyledPriceContainer>
-          </Col>
-        </StyledItemContainer>
-      ))}
+      {addedItems.map((i) => {
+        const item = matchProducts(products, i);
+        return (
+          <StyledItemContainer>
+            <StyledImageContainer>
+              <div>
+                <StyledItemName>{item.name}</StyledItemName>
+                <StyledCount>{item.quantity} pcs.</StyledCount>
+              </div>
+            </StyledImageContainer>
+            <Col>
+              <StyledPriceContainer>
+                {(item.price * item.quantity).toFixed(2)}TL
+              </StyledPriceContainer>
+            </Col>
+          </StyledItemContainer>
+        );
+      })}
       <StyledPopupBottom>
         <Link to="/checkout">
           <Button type="primary">Go to Checkout</Button>
@@ -85,16 +100,32 @@ const CartContent = (products) => {
 };
 
 export const Cart = () => {
-  const { items, addItemStatus } = useSelector((state) => state.cart);
+  const { items, addItemStatus, fetchItemStatus } = useSelector(
+    (state) => state.cart
+  );
+  const [fetchStatus, setFetchStatus] = React.useState("loading");
+  const { products } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(fetchItemsRequested());
+    const res = getAllProducts();
+    res
+      .then((data) => {
+        dispatch(productFetch(data.data));
+        setFetchStatus("idle");
+      })
+      .catch((err) => {
+        console.log(err);
+        setFetchStatus("failed");
+      });
   }, []);
 
-  return (
+  return addItemStatus !== "loading" &&
+    fetchItemStatus !== "loading" &&
+    fetchStatus !== "loading" ? (
     <Popover
-      content={CartContent(items)}
+      content={CartContent(products, items)}
       title={
         <>
           <p style={{ marginBottom: 0, fontSize: "24px" }}>Cart</p>
@@ -104,14 +135,12 @@ export const Cart = () => {
       trigger="hover"
       placement="bottomRight"
     >
-      {addItemStatus === "loading" ? (
-        <Spin size="large" />
-      ) : (
-        <Button>
-          <ShoppingCartOutlined />
-          Cart
-        </Button>
-      )}
+      <Button>
+        <ShoppingCartOutlined />
+        Cart
+      </Button>
     </Popover>
+  ) : (
+    <Spin size="large" />
   );
 };

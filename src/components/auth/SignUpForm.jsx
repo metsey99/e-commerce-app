@@ -46,14 +46,14 @@ export const SignUpForm = () => {
         surname: values.surname,
         email: values.email,
         password: values.password,
-        dob: dayjs(values.dob).format().toString(),
+        dateOfBirth: dayjs(values.dob).format().toString(),
         mobile: values.phoneNumber,
       };
       const res = register(user);
       res
         .then((data) => {
           setPageStatus("idle");
-          navigate("/signup-status");
+          navigate("/check-mail");
         })
         .catch((err) => {
           setPageStatus("failed");

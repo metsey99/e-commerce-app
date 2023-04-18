@@ -10,10 +10,10 @@ export const fetchItemsRequest = () => {
 };
 
 export const addItemRequest = (itemDetails) => {
-  console.log("ASD", itemDetails);
   return axios.request({
     method: "post",
     url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/addToCart`,
+    headers: addAuthHeader(),
     data: {
       productId: itemDetails.id,
       price: itemDetails.price,
@@ -26,6 +26,7 @@ export const editItemRequest = (itemDetails) => {
   return axios.request({
     method: "put",
     url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/updateOrder`,
+    headers: addAuthHeader(),
     data: {
       productId: itemDetails.id,
       price: itemDetails.price,
@@ -38,6 +39,7 @@ export const removeItemRequest = (itemDetails) => {
   return axios.request({
     method: "post",
     url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/removeFromCart`,
+    headers: addAuthHeader(),
     data: {
       productId: itemDetails.id,
       price: itemDetails.price,
@@ -50,5 +52,6 @@ export const removeAllItemsRequest = () => {
   return axios.request({
     method: "post",
     url: `${process.env.REACT_APP_ORDER_BACKEND_URL}/orders/clearCart`,
+    headers: addAuthHeader(),
   });
 };
