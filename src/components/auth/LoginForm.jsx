@@ -59,8 +59,6 @@ export const LoginForm = () => {
         setLoginStatus("failed");
         dispatch(loginFailed(err));
       });
-    // setEmail("");
-    // setPassword("");
   };
 
   const onVerificationFinish = (values) => {
@@ -73,7 +71,7 @@ export const LoginForm = () => {
     res
       .then((data) => {
         setLoginStatus("idle");
-        dispatch(loginSucceeded({ token: data.data }));
+        dispatch(loginSucceeded({ token: data.data.token }));
         navigate("/");
       })
       .catch((err) => {

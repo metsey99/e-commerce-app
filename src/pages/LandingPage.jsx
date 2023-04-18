@@ -32,7 +32,7 @@ export const LandingPage = () => {
               name={item.name}
               description={item.description}
               unitPrice={item.price}
-              img={`${item.imgBase64}`}
+              img={`${item.imageUri}`}
             />
           ))
         )}

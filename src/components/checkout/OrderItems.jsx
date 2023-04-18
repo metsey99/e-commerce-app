@@ -35,6 +35,7 @@ export const OrderItems = () => {
         description: matched.description,
         quantity: item.quantity,
         price: item.price,
+        img: matched.imageUri,
       };
     }
   };
@@ -51,17 +52,17 @@ export const OrderItems = () => {
       removeItemStatus !== "idle" ||
       fetchItemsStatus !== "idle" ? (
         <Spin size="large" />
-      ) : items.length ? (
+      ) : items && items.length ? (
         items.map((item) => {
-          const { name, description, quantity, price } = matchProducts(item);
+          const newItem = matchProducts(item);
           return (
-            //TODO: image ekle
             <ItemContainer
               id={item.productId}
-              name={name}
-              description={description}
-              unitPrice={price}
-              quantity={quantity}
+              name={newItem.name}
+              description={newItem.description}
+              unitPrice={newItem.price}
+              quantity={newItem.quantity}
+              productImg={newItem.img}
               removeItem={() =>
                 handleItemRemoval({ id: item.productId, quantity: 0, price: 0 })
               }
