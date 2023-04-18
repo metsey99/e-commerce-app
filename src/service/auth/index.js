@@ -53,7 +53,6 @@ export const checkEmailAvailability = (email) => {
   });
 };
 
-//TODO Bunlar lazim mi sor
 export const forgotPassword = (email) => {
   const request = axios.request({
     method: "post",

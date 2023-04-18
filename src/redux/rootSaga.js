@@ -13,6 +13,8 @@ import {
   removeAllItemsRequested,
   removeItemRequested,
 } from "./reducer/cartSlice";
+import { handleProductFetch } from "./handler/productHandler";
+import { productsFetchRequested } from "./reducer/productSlice";
 
 export function* watcherFetchItems() {
   yield takeLatest(fetchItemsRequested, handleFetchItems);
@@ -34,6 +36,10 @@ export function* watcherRemoveAllItems() {
   yield takeLatest(removeAllItemsRequested, handleRemoveItems);
 }
 
+export function* watcherFetchProducts() {
+  yield takeLatest(productsFetchRequested, handleProductFetch);
+}
+
 export default function* root() {
   yield all([
     fork(watcherFetchItems),
@@ -41,5 +47,6 @@ export default function* root() {
     fork(watcherEditItem),
     fork(watcherRemoveItem),
     fork(watcherRemoveAllItems),
+    fork(watcherFetchProducts),
   ]);
 }

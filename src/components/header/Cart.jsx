@@ -67,17 +67,18 @@ const CartContent = (products, addedItems) => {
     <StyledItemsContainer>
       {addedItems.map((i) => {
         const item = matchProducts(products, i);
+        console.log(item);
         return (
           <StyledItemContainer>
             <StyledImageContainer>
               <div>
                 <StyledItemName>{item.name}</StyledItemName>
-                <StyledCount>{item.quantity} pcs.</StyledCount>
+                <StyledCount>{i.quantity} pcs.</StyledCount>
               </div>
             </StyledImageContainer>
             <Col>
               <StyledPriceContainer>
-                {(item.price * item.quantity).toFixed(2)}TL
+                {(i.price * i.quantity).toFixed(2)}TL
               </StyledPriceContainer>
             </Col>
           </StyledItemContainer>
@@ -103,27 +104,18 @@ export const Cart = () => {
   const { items, addItemStatus, fetchItemStatus } = useSelector(
     (state) => state.cart
   );
-  const [fetchStatus, setFetchStatus] = React.useState("loading");
-  const { products } = useSelector((state) => state.product);
+  const { products, productFetchStatus } = useSelector(
+    (state) => state.product
+  );
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(fetchItemsRequested());
-    const res = getAllProducts();
-    res
-      .then((data) => {
-        dispatch(productFetch(data.data));
-        setFetchStatus("idle");
-      })
-      .catch((err) => {
-        console.log(err);
-        setFetchStatus("failed");
-      });
   }, []);
 
   return addItemStatus !== "loading" &&
     fetchItemStatus !== "loading" &&
-    fetchStatus !== "loading" ? (
+    productFetchStatus !== "loading" ? (
     <Popover
       content={CartContent(products, items)}
       title={
