@@ -1,4 +1,4 @@
-import { Button, Form, Input, Alert } from "antd";
+import { Button, Form, Input, Alert, Progress } from "antd";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import {
 } from "../../redux/reducer/authSlice";
 import styled from "styled-components";
 import { login2faRequest, loginRequest } from "../../service/auth";
+import { CountDownTimer } from "./CountDownTimer";
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -38,10 +39,11 @@ export const LoginForm = () => {
   const [password, setPassword] = React.useState("");
   const [isVerificationStep, setIsVerificationStep] = React.useState(false);
   const [loginStatus, setLoginStatus] = React.useState("idle");
+  const [errorMsg, setErrorMsg] = React.useState("");
+  const [isExpired, setIsExpired] = React.useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  // const { status } = useSelector((state) => state.auth);
 
   const onLoginFinish = (values) => {
     setLoginStatus("loading");
@@ -56,9 +58,15 @@ export const LoginForm = () => {
         form.resetFields();
       })
       .catch((err) => {
+        if (
+          typeof err.response.data === "string" ||
+          err.response.data instanceof String
+        )
+          setErrorMsg(err.response.data);
         setLoginStatus("failed");
         dispatch(loginFailed(err));
       });
+    setIsExpired(false);
   };
 
   const onVerificationFinish = (values) => {
@@ -93,7 +101,11 @@ export const LoginForm = () => {
           <StyledPageName>Login</StyledPageName>
           {loginStatus === "failed" && (
             <Alert
-              message="An exception has been occured. Please try again later"
+              message={
+                errorMsg
+                  ? errorMsg
+                  : "An exception has been occured. Please try again later"
+              }
               type="error"
               showIcon
               banner
@@ -116,6 +128,14 @@ export const LoginForm = () => {
               style={{ textAlign: "center" }}
             />
           </Form.Item>
+          <CountDownTimer
+            setIsExpired={() => {
+              setIsExpired(true);
+              setLoginStatus("idle");
+              setIsVerificationStep(false);
+              dispatch(loginFailed("Token Expired"));
+            }}
+          />
           <Form.Item>
             <Button
               type="primary"
@@ -123,6 +143,7 @@ export const LoginForm = () => {
               block
               size="large"
               loading={loginStatus === "loading"}
+              disabled={isExpired}
             >
               Submit
             </Button>
@@ -138,7 +159,11 @@ export const LoginForm = () => {
           <StyledPageName>Login</StyledPageName>
           {loginStatus === "failed" && (
             <Alert
-              message="An exception has been occured. Please try again later"
+              message={
+                errorMsg
+                  ? errorMsg
+                  : "An exception has been occured. Please try again later"
+              }
               type="error"
               showIcon
               banner

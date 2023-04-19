@@ -8,7 +8,7 @@ export const CheckMailPage = () => {
       <Result
         style={{ backgroundColor: "#fff", borderRadius: "12px" }}
         title="Please check your email"
-        subTitle="Your forgot password request has been received. Please check your provided mail for a password reset email."
+        subTitle="Your request has been received. Please check your provided mail for further actions."
       />
     </PageWrapper>
   );

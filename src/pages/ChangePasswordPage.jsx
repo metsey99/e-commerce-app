@@ -31,6 +31,7 @@ export const ChangePasswordPage = () => {
   const [helperMsg, setHelperMsg] = React.useState(["", ""]);
   const [cnfPassword, setCnfPassword] = React.useState("");
   const [pageStatus, setPageStatus] = React.useState("idle");
+  const [errorMsg, setErrorMsg] = React.useState("");
   const { auth } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -107,7 +108,11 @@ export const ChangePasswordPage = () => {
           <StyledPageName>Change Password</StyledPageName>
           {pageStatus === "failed" && (
             <Alert
-              message="An exception has been occured. Please try again later"
+              message={
+                errorMsg
+                  ? errorMsg
+                  : "An exception has been occured. Please try again later"
+              }
               type="error"
               showIcon
               banner

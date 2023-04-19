@@ -45,9 +45,9 @@ export const SignUpStatus = (props) => {
         <Result
           style={{ backgroundColor: "#fff", borderRadius: "12px" }}
           status="success"
-          title={"Successfully updated the password"}
+          title={"Sign Up Successfull"}
           subTitle={
-            "Your password has been successfully updated. Please login with your updated credentials."
+            "Your account has been created. Please proceed to the Home Page."
           }
           extra={[
             <Link to="/">
