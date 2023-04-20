@@ -195,6 +195,7 @@ export const SignUpForm = () => {
             addonBefore="+90"
             placeholder="(5XX) XXX XXXX"
             maxLength={10}
+            minLength={10}
             pattern="[0-9]*"
           />
         </Form.Item>
