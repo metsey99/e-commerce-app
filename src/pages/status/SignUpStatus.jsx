@@ -19,7 +19,6 @@ export const SignUpStatus = (props) => {
       const res = verifyRegister(token);
       res
         .then((data) => {
-          console.log(data.data);
           dispatch(loginSucceeded({ token: data.data.token }));
           setVerificationStatus("idle");
           navigate("/");

@@ -2,10 +2,9 @@ import React from "react";
 import { PageWrapper } from "./PageWrapper";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { Button, Form, Input } from "antd";
+import { Alert, Button, Form, Input } from "antd";
 import { changePassword, retrieveUserInfo } from "../service/auth";
-import { useDispatch } from "react-redux";
-import { loginSucceeded } from "../redux/reducer/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const StyledForm = styled(Form)`
   width: 50%;
@@ -34,9 +33,12 @@ export const ResetPasswordPage = () => {
   const [pageStatus, setPageStatus] = React.useState("idle");
   const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { auth } = useSelector((state) => state.auth);
 
   React.useEffect(() => {
+    if (auth) {
+      navigate("/");
+    }
     setPageStatus("loading");
     const res = retrieveUserInfo(id);
     res

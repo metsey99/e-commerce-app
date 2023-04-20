@@ -53,7 +53,6 @@ export function* handleRemoveItem(itemDetails) {
   try {
     const response = yield call(removeItemRequest, itemDetails.payload);
     const data = response.data;
-    console.log(data);
     yield put(removeItemSucceeded(data));
   } catch (error) {
     yield put(removeItemFailed(error));

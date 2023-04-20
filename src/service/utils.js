@@ -13,7 +13,13 @@ export const addAuthHeader = () => {
 const authToken = () => {
   let user = store.getState().auth.auth;
   if (user) {
-    return JSON.parse(user).token;
+    const savedUser = JSON.parse(user);
+    if (savedUser.hasOwnProperty("token")) {
+      return JSON.parse(user).token;
+    } else {
+      const logout = () => store.dispatch(store.dispatch(logoutAction()));
+      logout();
+    }
   }
   return "";
 };

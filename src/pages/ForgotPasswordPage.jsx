@@ -4,6 +4,7 @@ import { Alert, Button, Form, Input, Typography } from "antd";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { forgotPassword } from "../service/auth";
+import { useSelector } from "react-redux";
 
 const StyledForm = styled(Form)`
   width: 50%;
@@ -33,6 +34,13 @@ const StyledPageName = styled.p`
 export const ForgotPasswordPage = () => {
   const navigate = useNavigate();
   const [pageStatus, setPageStatus] = React.useState("idle");
+  const { auth } = useSelector((state) => state.auth);
+
+  React.useEffect(() => {
+    if (auth) {
+      navigate("/");
+    }
+  }, []);
 
   const handleResetPassword = (values) => {
     setPageStatus("loading");
