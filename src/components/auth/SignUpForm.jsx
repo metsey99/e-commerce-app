@@ -77,14 +77,14 @@ export const SignUpForm = () => {
       "surname",
     ]);
     return (
-      password.includes(name) ||
-      password.includes(surname) ||
-      password.includes(email.split("@")[0])
+      password.toLowerCase().includes(name.toLowerCase()) ||
+      password.toLowerCase().includes(surname.toLowerCase()) ||
+      password.toLowerCase().includes(email.split("@")[0])
     );
   };
 
   const validatePassword = () => {
-    if (checkPassword(password) && detectIfIncludes(password)) {
+    if (checkPassword(password) || detectIfIncludes(password)) {
       setHelperMsg([
         <span style={{ color: "#ff4d4f" }}>
           Password should contain at least{" "}

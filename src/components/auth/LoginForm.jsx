@@ -6,6 +6,7 @@ import {
   loginFailed,
   loginRequested,
   loginSucceeded,
+  setIdleLogin,
 } from "../../redux/reducer/authSlice";
 import styled from "styled-components";
 import { login2faRequest, loginRequest } from "../../service/auth";
@@ -44,6 +45,11 @@ export const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
+
+  React.useEffect(() => {
+    setLoginStatus("idle");
+    dispatch(setIdleLogin("idle"));
+  }, []);
 
   const onLoginFinish = (values) => {
     setLoginStatus("loading");

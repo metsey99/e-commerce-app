@@ -10,6 +10,10 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setIdleLogin: (state, action) => {
+      console.log(action.payload);
+      state.status = action.payload;
+    },
     loginRequested: (state) => {
       state.status = "loading";
     },
@@ -30,7 +34,12 @@ export const authSlice = createSlice({
   },
 });
 
-export const { loginRequested, loginSucceeded, loginFailed, logout } =
-  authSlice.actions;
+export const {
+  setIdleLogin,
+  loginRequested,
+  loginSucceeded,
+  loginFailed,
+  logout,
+} = authSlice.actions;
 
 export default authSlice.reducer;

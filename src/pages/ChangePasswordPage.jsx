@@ -63,8 +63,7 @@ export const ChangePasswordPage = () => {
     });
     res
       .then((data) => {
-        dispatch(loginSucceeded({ token: data.data.token }));
-        navigate("/password-status");
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);

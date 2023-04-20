@@ -5,6 +5,7 @@ import { PageWrapper } from "./PageWrapper";
 import styled from "styled-components";
 import { productsFetchRequested } from "../redux/reducer/productSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { setIdleLogin } from "../redux/reducer/authSlice";
 
 const StyledSpace = styled(Space)`
   justify-content: space-around;
@@ -17,6 +18,7 @@ export const LandingPage = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
+    dispatch(setIdleLogin("idle"));
     dispatch(productsFetchRequested());
   }, []);
 
