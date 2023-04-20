@@ -10,11 +10,13 @@ export const PassChangeStatus = (props) => {
         style={{ backgroundColor: "#fff", borderRadius: "12px" }}
         status="success"
         title={"Successfully updated the password"}
-        subTitle={"Your password has been successfully updated."}
+        subTitle={
+          "Your password has been successfully updated. Please log in to your account with your new password."
+        }
         extra={[
-          <Link to="/">
+          <Link to="/login">
             <Button type="primary" key="console">
-              Go to Home Page
+              Go to Login Page
             </Button>
           </Link>,
         ]}

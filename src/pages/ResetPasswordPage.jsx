@@ -31,30 +31,36 @@ export const ResetPasswordPage = () => {
   const [password, setPassword] = React.useState("");
   const [helperMsg, setHelperMsg] = React.useState(["", ""]);
   const [cnfPassword, setCnfPassword] = React.useState("");
+  const [pageStatus, setPageStatus] = React.useState("idle");
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   React.useEffect(() => {
+    setPageStatus("loading");
     const res = retrieveUserInfo(id);
     res
       .then((data) => {
+        setPageStatus("idle");
         setEmail(data.data.email);
       })
       .catch((err) => {
         console.log(err);
+        setPageStatus("failed");
       });
   }, []);
 
   const handleResetPassword = (values) => {
+    setPageStatus("loading");
     const res = changePassword({ email: email, password: password, token: id });
     res
       .then((data) => {
-        dispatch(loginSucceeded({ token: data.data.token }));
+        setPageStatus("idle");
         navigate("/password-status");
       })
       .catch((err) => {
         console.log(err);
+        setPageStatus("failed");
       });
   };
 
@@ -94,6 +100,15 @@ export const ResetPasswordPage = () => {
       <StyledWrapper>
         <StyledForm layout="vertical" onFinish={handleResetPassword}>
           <StyledPageName>Reset Password</StyledPageName>
+          {pageStatus === "failed" && (
+            <Alert
+              message="An exception has been occured. Please try again later"
+              type="error"
+              showIcon
+              banner
+              style={{ marginBottom: "10px" }}
+            />
+          )}
           <Form.Item name="password" label="New Password" help={helperMsg[0]}>
             <Input.Password
               size="large"
@@ -115,7 +130,13 @@ export const ResetPasswordPage = () => {
             />
           </Form.Item>
           <Form.Item>
-            <Button block type="primary" size="large" htmlType="submit">
+            <Button
+              block
+              type="primary"
+              size="large"
+              htmlType="submit"
+              loading={pageStatus === "loading"}
+            >
               Reset Password
             </Button>
           </Form.Item>
